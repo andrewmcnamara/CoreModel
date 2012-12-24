@@ -20,20 +20,13 @@ module CoreModel
 
       def entity
         @entity ||= NSEntityDescription.new
-        p "&"*90
-        p self
-        p "&"*90
         @entity.name = self.to_s
         @entity.managedObjectClassName = self.to_s
-        p @attributes
         @entity.properties = @attributes + (@relationships||[])
         @entity
       end
 
       def new_entity
-        p "*"*100
-        p NSEntityDescription.entityForName(name, inManagedObjectContext:Store.shared.context)
-        p "*"*100
         yield NSEntityDescription.insertNewObjectForEntityForName(name, inManagedObjectContext:Store.shared.context)
       end
       #

@@ -6,7 +6,7 @@ module CoreModel
     end
 
     def self.register_entity entity_class
-      p "registering #{entity_class}"
+      NSLog("Registering #{entity_class}")
       (@entities||=[]) << entity_class
     end
 
@@ -20,15 +20,13 @@ module CoreModel
     end
 
     def initialize
-      store_url = NSURL.fileURLWithPath(File.join(NSHomeDirectory(), 'Documents', DB))
-      p store_url.path
       # Create the model programmatically. The data will be stored in a SQLite database, inside the application's Documents folder.
       model = NSManagedObjectModel.alloc.init
       model.entities = Store.entities.map {|entity_class|entity_class.entity}
       #model.entities.each { |entity| entity.wireRelationships }
       store = NSPersistentStoreCoordinator.alloc.initWithManagedObjectModel(model)
-      #store_url = NSURL.fileURLWithPath(File.join(NSHomeDirectory(), 'Documents', DB))
-      #p store_url.path
+      store_url = NSURL.fileURLWithPath(File.join(NSHomeDirectory(), 'Documents', DB))
+      NSLog("Using path #{store_url.path}")
       error_ptr = Pointer.new(:object)
       unless store.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: store_url, options: nil, error: error_ptr)
         raise "Can't add persistent SQLite store: #{error_ptr[0].description}"
