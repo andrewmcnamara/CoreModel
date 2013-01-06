@@ -7,7 +7,7 @@ module CoreModel
 
     def self.register_entity entity_class
       NSLog("Registering #{entity_class}")
-      (@entities||=[]) << entity_class
+      (@entities||=[])<< entity_class
     end
 
     def context
@@ -28,9 +28,13 @@ module CoreModel
       store_url = NSURL.fileURLWithPath(File.join(NSHomeDirectory(), 'Documents', DB))
       NSLog("Using path #{store_url.path}")
       error_ptr = Pointer.new(:object)
-      unless store.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: store_url, options: nil, error: error_ptr)
+
+      unless store.addPersistentStoreWithType(NSInMemoryStoreType, configuration: nil, URL: nil, options: nil, error: error_ptr)
         raise "Can't add persistent SQLite store: #{error_ptr[0].description}"
       end
+      #unless store.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: store_url, options: nil, error: error_ptr)
+      #  raise "Can't add persistent SQLite store: #{error_ptr[0].description}"
+      #end
       context = NSManagedObjectContext.alloc.init
       context.persistentStoreCoordinator = store
       @context = context

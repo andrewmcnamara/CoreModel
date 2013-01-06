@@ -27,8 +27,16 @@ module CoreModel
       end
 
       def new_entity
-        yield NSEntityDescription.insertNewObjectForEntityForName(name, inManagedObjectContext:Store.shared.context)
+        yield NSEntityDescription.insertNewObjectForEntityForName(name, inManagedObjectContext: Store.shared.context)
       end
+
+      def has_many(relationship_name, options={})
+        min_count = (options.fetch(:optional, true)) ? 0 : 1
+        has_many_options= options.merge(:min_count => min_count, :max_count => NSIntegerMax)
+        define_relationship(relationship_name, has_many_options)
+        #relationships = relationships.each.map do |name, destination, inverse, optional, indexed, ordered, min_count, max_count, delete_rule|
+      end
+
       #
       #def initialize
       #  # Create the model programmatically. The data will be stored in a SQLite database, inside the application's Documents folder.
@@ -49,9 +57,23 @@ module CoreModel
       #  @context = context
       #end
 
+      def define_relationship(relationship_name, options={})
+        property = NSRelationshipDescription.alloc.init
+        property.extend(CoreRelationshipDescription)
+
+        property.name = relationship_name.to_s
+        property.destinationEntityName = options[:type].to_s
+        property.inverseRelationshipName = options[:inverse_relationship_name]
+        property.optional = options[:optional]
+        #property.transient = transient
+        property.indexed = options[:indexed]
+        property.ordered = options[:ordered]
+        property.minCount = options[:min_count]
+        property.maxCount = options[:max_count] # NSIntegerMax
+        property.deleteRule = options[:delete_rule] # NSNoActionDeleteRule NSNullifyDeleteRule NSCascadeDeleteRule NSDenyDeleteRule
+        (@relationships ||= []) << property
+      end
 
     end
-
   end
-
 end

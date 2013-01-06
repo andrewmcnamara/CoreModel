@@ -7,5 +7,5 @@ Motion::Project::App.setup do |app|
   app.name = 'CoreModel'
   app.files = Dir.glob('./lib/core_model/**/*.rb')
   app.files = (app.files + Dir.glob('./app/**/*.rb'))
-  app.frameworks += ['CoreData']
+  app.frameworks += %w{ CoreData }
 end
