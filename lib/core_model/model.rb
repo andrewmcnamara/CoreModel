@@ -37,41 +37,44 @@ module CoreModel
         #relationships = relationships.each.map do |name, destination, inverse, optional, indexed, ordered, min_count, max_count, delete_rule|
       end
 
-      #
-      #def initialize
-      #  # Create the model programmatically. The data will be stored in a SQLite database, inside the application's Documents folder.
-      #  model = NSManagedObjectModel.alloc.init
-      #  model.entities = ManagedObjectClasses.collect {|c| c.entity}
-      #  model.entities.each {|entity| entity.wireRelationships}
-      #
-      #  store = .alloc.initWithManagedObjectModel(model)
-      #  store_url = NSURL.fileURLWithPath(File.join(NSHomeDirectory(), 'Documents', DB))
-      #  p store_url.path
-      #  error_ptr = Pointer.new(:object)
-      #  unless store.addPersistentStoreWithType(NSSQLiteStoreType, configuration:nil, URL:store_url, options:nil, error:error_ptr)
-      #    raise "Can't add persistent SQLite store: #{error_ptr[0].description}"
-      #  end
-      #
-      #  context = NSManagedObjectContext.alloc.init
-      #  context.persistentStoreCoordinator = store
-      #  @context = context
-      #end
+      def belongs_to(parent, options={})
+        options.merge!({type: parent.to_s.camelize,
+                        optional: true,
+                        min_count: 0,
+                        max_count: 1,
+                        inverse_relationship_name: self.name.downcase+"s",
+                        delete_rule: NSNullifyDeleteRule
+                       })
+        define_relationship(parent, options)
+      end
+
+      def has_one(relationship_name, options={})
+        #TODO implement me
+        raise "Implement me"
+        min_count = (options.fetch(:optional, true)) ? 0 : 1
+        has_one_options= options.merge(:min_count => min_count, :max_count => 1)
+        define_relationship(relationship_name, has_one_options)
+      end
 
       def define_relationship(relationship_name, options={})
         property = NSRelationshipDescription.alloc.init
-        property.extend(CoreRelationshipDescription)
+        #property.extend(CoreRelationshipDescription)
 
         property.name = relationship_name.to_s
         property.destinationEntityName = options[:type].to_s
         property.inverseRelationshipName = options[:inverse_relationship_name]
-        property.optional = options[:optional]
+        property.optional = options.fetch(:optional, false)
         #property.transient = transient
-        property.indexed = options[:indexed]
-        property.ordered = options[:ordered]
+        property.indexed = options.fetch(:indexed, false)
+        property.ordered = options.fetch(:ordered, false)
         property.minCount = options[:min_count]
         property.maxCount = options[:max_count] # NSIntegerMax
         property.deleteRule = options[:delete_rule] # NSNoActionDeleteRule NSNullifyDeleteRule NSCascadeDeleteRule NSDenyDeleteRule
         (@relationships ||= []) << property
+      end
+
+      def save
+        CoreModel::Store.shared.context.save
       end
 
     end
