@@ -29,7 +29,6 @@ module CoreModel
 
     def initialize
       # Create the model programmatically. The data will be stored in a SQLite database, inside the application's Documents folder.
-      #model.entities.each { |entity| entity.wireRelationships }
       model = NSManagedObjectModel.alloc.init
       model.entities = Store.entities.map { |entity_class| entity_class.entity }
       model.entities.each { |entity| entity.wireRelationships }
@@ -41,8 +40,11 @@ module CoreModel
       #unless store.addPersistentStoreWithType(NSInMemoryStoreType, configuration: nil, URL: nil, options: nil, error: error_ptr)
       #  raise "Can't add persistent SQLite store: #{error_ptr[0].description}"
       #end
-      #Migrations are not handled - How?
-      options = {"NSMigratePersistentStoresAutomaticallyOption"=>NSNumber.numberWithBool(true), "NSInferMappingModelAutomaticallyOption"=>NSNumber.numberWithBool(true)}
+
+      #TODO Migrations are not handled - How?
+      #TODO Think may need to add version
+      options = {"NSMigratePersistentStoresAutomaticallyOption" => NSNumber.numberWithBool(true), "NSInferMappingModelAutomaticallyOption" => NSNumber.numberWithBool(true)}
+
       unless store.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: store_url, options: options, error: error_ptr)
         raise "Can't add persistent SQLite store: #{error_ptr[0].description}"
       end
@@ -51,8 +53,5 @@ module CoreModel
       @context = context
     end
 
-    def build_model
-
-    end
   end
 end

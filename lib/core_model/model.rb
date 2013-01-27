@@ -57,8 +57,6 @@ module CoreModel
 
       def define_relationship(relationship_name, options={})
         property = NSRelationshipDescription.alloc.init
-        #property.extend(CoreRelationshipDescription)
-
         property.name = relationship_name.to_s
         property.destinationEntityName = options[:type].to_s
         property.inverseRelationshipName = options[:inverse_relationship_name]
