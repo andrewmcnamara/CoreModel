@@ -2,10 +2,8 @@ require File.expand_path('../lib/core_model/version', __FILE__)
 
 Gem::Specification.new do |gem|
   gem.authors = ["Andrew McNamara"]
-  #gem.email = ["francis@ignition.hk"]
-  gem.description = "DSL to  core data model for RubyMotion"
-  gem.summary = "Stubbing and mocking for RubyMotion"
-  #gem.homepage = "https://github.com/siuying/motion-stump"
+  gem.description = 'Simple DSL to allow a core data models to be created programmatically for RubyMotion'
+  gem.summary = 'Simple Core Data Model DSL for RubyMotion'
 
   gem.files = `git ls-files`.split($\)
   gem.test_files = gem.files.grep(%r{^(test|spec|lib_spec|features)/})
@@ -13,7 +11,7 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version = CoreModel::VERSION
 
+  gem.add_development_dependency 'bubble-wrap'
   gem.add_development_dependency 'motion-redgreen', '~> 0.1.0'
   gem.add_development_dependency 'rake'
-  gem.add_development_dependency  'bubble-wrap'
 end
