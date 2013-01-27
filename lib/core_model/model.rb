@@ -34,7 +34,6 @@ module CoreModel
         min_count = (options.fetch(:optional, true)) ? 0 : 1
         has_many_options= options.merge(:min_count => min_count, :max_count => NSIntegerMax)
         define_relationship(relationship_name, has_many_options)
-        #relationships = relationships.each.map do |name, destination, inverse, optional, indexed, ordered, min_count, max_count, delete_rule|
       end
 
       def belongs_to(parent, options={})
