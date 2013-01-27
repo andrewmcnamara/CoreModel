@@ -1,0 +1,20 @@
+PATH
+  remote: .
+  specs:
+    core-model (0.0.1)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    bubble-wrap (1.1.4)
+    motion-redgreen (0.1.0)
+    rake (10.0.3)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  bubble-wrap
+  core-model!
+  motion-redgreen (~> 0.1.0)
+  rake

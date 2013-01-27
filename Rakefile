@@ -2,7 +2,6 @@
 $:.unshift("/Library/RubyMotion/lib")
 require 'motion/project'
 require 'bundler'
-require 'bubble-wrap'
 Bundler.setup :default, :development
 Bundler.require
 

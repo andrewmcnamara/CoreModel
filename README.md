@@ -1,6 +1,6 @@
 #CoreModel
-This gem provides a way of building core data models through a simple Ruby DSL. Based on the core relationship sample from [https://github.com/caramdache/games](https://github.com/caramdache/games)
-Don
+This code sample provides a way of building core data models through a simple Ruby DSL. Based on the core relationship sample from [https://github.com/caramdache/games](https://github.com/caramdache/games).
+
 ##Example Usage
 ###Simple Model
     class Thing < NSManagedObject
@@ -31,6 +31,8 @@ Don
 ## Todo
 
 - Handle other relationship types (has_one etc)
+- Gemify 
+- Add code to provide sensible types dependent on type i.e. `NSStringAttributeType => ''`	
 - A defaults based on the type
 - Provide a nicer syntax for persisting
 - Provide an abstraction for return NSEntityDescription
