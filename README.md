@@ -37,4 +37,5 @@ This code sample provides a way of building core data models through a simple Ru
 - Provide a nicer syntax for persisting
 - Provide an abstraction for return NSEntityDescription
 - Handle migrations
+- Remove workaround for camelize that was cut and paste from Bubblewrap 
 - Provide abstraction to specify whether we will use an in memory or disk store see [NanoStoreInMotion - Set default store	](https://github.com/siuying/NanoStoreInMotion) 
