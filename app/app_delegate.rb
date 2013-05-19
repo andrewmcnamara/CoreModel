@@ -4,6 +4,7 @@ class AppDelegate
       zaMagicChest = MagicChest.new_entity do |mc|
         mc.name = "The magic happens here"
         mc
+        
       end
       CoreModel::Store.shared.save
       p zaMagicChest
@@ -16,6 +17,7 @@ class AppDelegate
       #zaThing.save
       #p zaThing
       CoreModel::Store.shared.save
+      #mc.
 
 
       #
